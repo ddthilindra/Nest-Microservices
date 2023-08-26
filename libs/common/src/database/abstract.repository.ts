@@ -1,7 +1,7 @@
 // MICROSERVICES CAN EXTEND THIS COMMON CRUD FUNCTIONALITY WITHOUT REPEAT ANY CODE
 
 import { Logger, NotFoundException } from "@nestjs/common";
-import { AbstractDocument } from "./abstract.scema";
+import { AbstractDocument } from "./abstract.schema";
 import { FilterQuery, Model, Types, UpdateQuery } from "mongoose";
 
 export abstract class AbstractRepository<TDocument extends AbstractDocument>{
@@ -20,7 +20,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument>{
 
     // FIND ONE
     async findOne(filterQuery: FilterQuery<TDocument>): Promise<TDocument> {
-        const document = await this.model.findOne(filterQuery, {}, { lean: true });
+        const document = await this.model.findOne(filterQuery, {}, { lean: true }) as TDocument;
 
         if (!document) {
             this.logger.warn('Document not found with filterQuery', filterQuery);
