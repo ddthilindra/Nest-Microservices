@@ -3,6 +3,7 @@
 import { Logger, NotFoundException } from "@nestjs/common";
 import { AbstractDocument } from "./abstract.schema";
 import { FilterQuery, Model, Types, UpdateQuery } from "mongoose";
+import { CreateIndexesOptions } from 'mongodb';
 
 export abstract class AbstractRepository<TDocument extends AbstractDocument>{
     protected abstract readonly logger: Logger;
@@ -49,5 +50,9 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument>{
     // FIND ONE AND DELETE
     async findOneAndDelete(filterQuery: FilterQuery<TDocument>) {
         return this.model.findOneAndDelete(filterQuery, { lean: true })
+    }
+
+    async createIndex(options: CreateIndexesOptions) {
+        return this.model.createIndexes(options as any);
     }
 }
